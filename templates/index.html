@@ -1,43 +1,78 @@
 <!DOCTYPE html>
-<html lang="ua">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список товарів</title>
+    <title>Список продуктів</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Список товарів</h1>
-
-    <form action="/add" method="post">
-        <input type="text" name="name" placeholder="Товар" required>
-        <input type="number" step="0.01" name="price" placeholder="Ціна" required>
-        <input type="text" name="country" placeholder="Країна" required>
-        <button type="submit">Додати</button>
-    </form>
+    <header>
+        <h1>Список продуктів</h1>
+        <nav>
+            {% if current_user.is_authenticated %}
+                <span>Ви увійшли як: {{ current_user.username }}</span>
+                <a href="{{ url_for('logout') }}"><button class="logout-btn">Вийти</button></a>
+                {% if current_user.is_admin %}
+                    <a href="{{ url_for('admin.index') }}"><button class="admin-btn">Адмінка</button></a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('login') }}"><button class="login-btn">Війти</button></a>
+                <a href="{{ url_for('register') }}"><button class="register-btn">Реєстрація</button></a>
+            {% endif %}
+        </nav>
+    </header>
+    
+    {% if current_user.is_authenticated %}
+        <form action="/add" method="post" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Назва продукту" required>
+            <input type="number" step="0.01" name="price" placeholder="Ціна" required>
+            <input type="text" name="country" placeholder="Країна походження" required>
+            <textarea name="description" placeholder="Опис"></textarea>
+            <input type="file" name="picture">
+            <button type="submit">Додати</button>
+        </form>
+    {% else %}
+        <p><a href="{{ url_for('login') }}">Увійдіть</a>, щоб додати продукт.</p>
+    {% endif %}
 
     <table>
         <tr>
-            <th>Товар</th>
+            <th>Назва</th>
             <th>Ціна</th>
             <th>Країна</th>
-            <th>Дія</th>
+            <th>Опис</th>
+            <th>Зображення</th>
+            {% if current_user.is_authenticated %}
+                <th>Дія</th>
+            {% endif %}
         </tr>
         {% for product in products %}
         <tr>
             <td>{{ product.name }}</td>
             <td>{{ product.price }}</td>
             <td>{{ product.country }}</td>
+            <td>{{ product.description or 'Нема опису' }}</td>
             <td>
-                <a href="{{ url_for('edit_product', product_id=product.id) }}">
-                    <button class="edit-btn">Редагувати</button>
-                </a>
-                <form action="/delete/{{ product.id }}" method="post" style="display:inline;">
-                    <button type="submit" class="delete-btn">Видалити</button>
-                </form>
+                {% if product.picture %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.picture) }}" alt="{{ product.name }}" style="max-width: 100px;">
+                {% else %}
+                    Нема зображення
+                {% endif %}
             </td>
+            {% if current_user.is_authenticated %}
+                <td>
+                    <a href="{{ url_for('edit_product', product_id=product.id) }}">
+                        <button class="edit-btn">Редагувати</button>
+                    </a>
+                    <form action="{{ url_for('delete_product', product_id=product.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="delete-btn">Видалити</button>
+                    </form>
+                </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
 </body>
 </html>
+
