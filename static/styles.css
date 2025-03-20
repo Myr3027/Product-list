@@ -1,105 +1,111 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
-    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
     padding: 20px;
 }
 
-h1 {
-    color: #333;
-}
-
-form {
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-input {
-    padding: 8px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 80%;
-    max-width: 300px;
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-}
-
-button[type="submit"] {
-    background-color: #28a745;
-}
-
-button[type="submit"]:hover {
-    background-color: #218838;
-}
-
-table {
-    width: 80%;
-    margin: auto;
-    border-collapse: collapse;
-    background: white;
-}
-
-th, td {
+.product {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
 
-th {
-    background-color: #007bff;
-    color: white;
+.product img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
 }
 
-.delete-btn {
-    background-color: #dc3545 !important; 
+.product h3 {
+    margin: 10px 0;
+    font-size: 16px;
 }
 
-.delete-btn:hover {
-    background-color: #c82333 !important;
+.product p {
+    font-size: 14px;
+    color: #333;
 }
 
-.edit-btn {
-    background-color: #ffc107;
-    color: black;
+.links a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: blue;
 }
 
-.edit-btn:hover {
-    background-color: #e0a800;
-}
-
-.container {
-    width: 50%;
-    margin: auto;
-    background: white;
+/* Окремий контейнер для форм (вхід/реєстрація), щоб не конфліктувати з основним контейнером */
+.form-container {
+    max-width: 600px;  /* менша ширина */
+    margin: 50px auto; /* відцентровано з відступом зверху */
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.save-btn {
-    background-color: #28a745;
+/* Стилі для елементів форми */
+.form-control {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
 }
 
-.save-btn:hover {
-    background-color: #218838;
-}
-
-.cancel-btn {
-    background-color: #dc3545;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
+/* Стилі для кнопок */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.cancel-btn:hover {
-    background-color: #c82333;
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Стилі для flash-повідомлень */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+/* Стилі для повідомлень про помилки */
+.error {
+    color: red;
+    font-size: 0.9em;
 }
